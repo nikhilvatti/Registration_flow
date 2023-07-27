@@ -17,8 +17,6 @@ secret_key=os.getenv("SECRET_KEY")
 database=MongoClient("mongodb://localhost:27017").Registration
 collection_records=database.customers
 
-
-
 class collection_record_selection:
     def __init__(self,collection):
         self.collection_record=collection
@@ -29,7 +27,7 @@ manual_enter_database=database.manual_entered_collection_records
 
 class user_registration():
     def uploading_data_into_database(self,data):
-        records=collection_records.insert_one(data)
+        insert_record=collection_records.insert_one(data)
         data.pop("password")
         data.pop("_id")
         payload={"data":data,"exp":datetime.utcnow()+timedelta(minutes=10)}
@@ -42,7 +40,7 @@ class user_registration():
         return {"access_token":access_token,"message":message,"refresh_token":refresh_token}
     
     def update_password_by_mail(self,data,password):
-        records=collection_records.update_one({"email":data["email"]},{"$set":{"password":password}})
+        update_password=collection_records.update_one({"email":data["email"]},{"$set":{"password":password}})
         return {"msg":"Password updated successfully"}
         
     

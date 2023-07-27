@@ -56,10 +56,3 @@ class registration_compeleted(Schema):
     access_token=fields.String(required=True)
     message=fields.String(required=True)
     refresh_token=fields.String(required=True)
-
-    
-
-
-
-    
-    
