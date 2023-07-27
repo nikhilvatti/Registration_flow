@@ -3,13 +3,10 @@ from flask_restx import Namespace,Resource
 from flask import request
 from flask_accepts import accepts,responds
 from Registration.user_schema import *
-from flask import jsonify
 from werkzeug.security import generate_password_hash,check_password_hash
 from Registration.user_repository import user_registration
-import os
 
 registration_namespace=Namespace("registration",description="namsepace for registration")
-
 
 @registration_namespace.route("/register")
 class user_registration_operations(Resource):
