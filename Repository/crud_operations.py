@@ -19,7 +19,7 @@ def insert_many_records(data):
 def update_one_record(id,data):
     record=collection_records.find({"_id":ObjectId(id)})
     if len(list(record))!=0:
-        record=collection_records.update_one({"_id":ObjectId("_id")},{data})
+        update_record=collection_records.update_one({"_id":ObjectId("_id")},{data})
         return {"msg":"record updated successfully"}
     else:
         return {"msg":"Record not exists in the database"}

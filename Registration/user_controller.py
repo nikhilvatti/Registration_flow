@@ -17,19 +17,19 @@ class user_registration_operations(Resource):
         hash_password=generate_password_hash(data["password"])
         data["password"]=hash_password
         data.pop("confirm_password")
-        res=user_registration.uploading_data_into_database(self,data)        
-        return res
+        result=user_registration.uploading_data_into_database(self,data)        
+        return result
     
     def get(self):
-        res=user_registration.get_all_records(self)
-        return res
+        result=user_registration.get_all_records(self)
+        return result
     
     @accepts(schema=forget_password,api=registration_namespace)
     def put(self):
         data=request.json
         hash_password=generate_password_hash(data["email"])
-        res=user_registration.update_password_by_mail(self,data,hash_password)
-        return res    
+        result=user_registration.update_password_by_mail(self,data,hash_password)
+        return result    
 
 @registration_namespace.route("/login")
 class login_operation(Resource):
@@ -37,5 +37,5 @@ class login_operation(Resource):
     @responds(schema=loginResponds,api=registration_namespace)
     def get(self):
         data=request.json
-        res=user_registration.login_with_credientials(self,data["email"],data["password"])
-        return res
+        result=user_registration.login_with_credientials(self,data["email"],data["password"])
+        return result
