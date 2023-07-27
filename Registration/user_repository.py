@@ -3,7 +3,6 @@ from pymongo import MongoClient
 from flask import json, jsonify
 from bson import json_util
 from werkzeug.security import check_password_hash
-from bson.objectid import ObjectId
 import jwt
 import os
 from dotenv import load_dotenv

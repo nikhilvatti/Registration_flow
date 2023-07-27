@@ -1,7 +1,7 @@
 
 
 from flask import request
-from marshmallow import validates,ValidationError,validates_schema
+from marshmallow import validates,ValidationError
 from Registration.user_repository import collection_records
 
 
