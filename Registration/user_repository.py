@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 from datetime import datetime,timedelta
 from flask_jwt_extended import create_access_token,create_refresh_token
 from werkzeug.exceptions import BadRequest
+from bson.objectid import ObjectId
 
 load_dotenv()
 
@@ -25,7 +26,7 @@ manual_entered_collection_records=collection_record_selection("employee").collec
 manual_enter_database=database.manual_entered_collection_records
 
 
-class user_registration():
+class UserRegistration():
     def insert_user_into_database(self,data):
         insert_record=collection_records.insert_one(data)
         data.pop("password")
@@ -66,3 +67,14 @@ class user_registration():
             }
         else:
             raise BadRequest("Invalid password")
+    def update_data_by_id(self,id,data):
+        data["updated_at"]=str(datetime.now())
+        records=collection_records.update_one({"_id":ObjectId(id)},{"$set":data})
+        return f"{list(data.keys())} updated successfully"
+    
+    def matching_accounts(self,id,mail):
+        record=collection_records.find({"_id":ObjectId(id)})
+        if record[0].get("email")==mail:
+            return {"msg":"user verified"}
+        else:
+            return {"msg":f"token is not belongs to {record[0].get('email')} user"}
