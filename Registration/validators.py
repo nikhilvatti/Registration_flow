@@ -3,7 +3,7 @@
 from flask import request
 from marshmallow import validates,ValidationError
 from Registration.user_repository import collection_records
-
+from bson.objectid import ObjectId
 
 @validates(["first_name","last_name","email","company_name","industry_name"])
 def checking_spaces(value):
@@ -36,3 +36,8 @@ def validate_match_password(value):
     if value!=request.json["password"]:
         raise ValidationError("password not matched")
 
+@validates("id")
+def checking_user(value):
+    find_user=collection_records.find({"_id":ObjectId(value)})
+    if len(list(find_user))==0:
+        raise ValidationError("user not found in the database records")

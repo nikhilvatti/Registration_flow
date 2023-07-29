@@ -2,8 +2,8 @@
 
 from marshmallow import fields,Schema,validate
 from Registration.validators import *
-checking_spaces
-class user_signup(Schema):
+
+class UserSignup(Schema):
     first_name=fields.String(validate=[checking_spaces,validate.Length(min=3,max=50),
                                        validate.Regexp(r'[A-Za-z0-9]',error=("the string will take only alphabetics and digits"))],required=True)
     last_name=fields.String(validate=[checking_spaces,validate.Length(min=3,max=50),
@@ -24,7 +24,7 @@ class user_signup(Schema):
 
 
 
-class forget_password(Schema):
+class ForgetPassword(Schema):
     email=fields.Email(validate=email_required,required=True)
     password = fields.Str(
         required=True,
@@ -36,7 +36,7 @@ class forget_password(Schema):
     )
     confirm_password=fields.String(validate=validate_match_password,required=True,load_only=True)
 
-class login_credientials(Schema):
+class LoginWithCredientials(Schema):
     email=fields.Email(validate=email_required,required=True)
     password = fields.Str(
         required=True,
@@ -58,3 +58,16 @@ class registration_compeleted(Schema):
     access_token=fields.String()
     message=fields.String()
     refresh_token=fields.String()
+
+class UpdateUserData(Schema):
+    id=fields.String(validate=[validate.Length(min=24,max=24,error=("enter a valid id")),checking_user],required=True)
+    first_name=fields.String(validate=[checking_spaces,validate.Length(min=3,max=50),
+                                       validate.Regexp(r'[A-Za-z0-9]',error=("the string will take only alphabetics and digits"))])
+    last_name=fields.String(validate=[checking_spaces,validate.Length(min=3,max=50),
+                                      validate.Regexp(r'[A-Za-z0-9]',error=("the string will take only alphabetics and digits"))])
+    company_name=fields.String(validate=[checking_spaces,validate.Length(min=3,max=50)])
+    account_type=fields.String(validate=[validate_account_type,validate.Length(min=3,max=50)])
+    industry_name=fields.String(validate=[checking_spaces,validate.Length(min=3,max=50)])
+
+
+    
