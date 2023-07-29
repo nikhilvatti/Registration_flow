@@ -2,19 +2,21 @@
 
 from marshmallow import fields,Schema,validate
 from Registration.validators import *
-
+checking_spaces
 class user_signup(Schema):
-    first_name=fields.String(validate=validate_first_name,required=True)
-    last_name=fields.String(validate=validate_last_name,required=True)
+    first_name=fields.String(validate=[checking_spaces,validate.Length(min=3,max=50),
+                                       validate.Regexp(r'[A-Za-z0-9]',error=("the string will take only alphabetics and digits"))],required=True)
+    last_name=fields.String(validate=[checking_spaces,validate.Length(min=3,max=50),
+                                      validate.Regexp(r'[A-Za-z0-9]',error=("the string will take only alphabetics and digits"))],required=True)
     email=fields.Email(validate=email_checking,required=True)
-    company_name=fields.String(validate=validate_company_name,required=True)
-    account_type=fields.String(validate=validate_incentive_type,required=True)
-    industry_name=fields.String(validate=validate_industry_name,required=True)
+    company_name=fields.String(validate=[checking_spaces,validate.Length(min=3,max=50)],required=True)
+    account_type=fields.String(validate=[validate_account_type,validate.Length(min=3,max=50)],required=True)
+    industry_name=fields.String(validate=[checking_spaces,validate.Length(min=3,max=50)],required=True)
     password = fields.String(
         required=True,
         validate=[
-            validate.Length(min=8, max=100),
-            validate.Regexp(r'^(?=.*[A-Z])(?=.*[@#$%^&+=0-9]).*$')
+            validate.Length(min=8, max=50),
+            validate.Regexp(r'^(?=.*[A-Z])(?=.*[@#$%^&+=])(?=.*[0-9]).*$')
         ],
         load_only=True
     )
@@ -27,8 +29,8 @@ class forget_password(Schema):
     password = fields.Str(
         required=True,
         validate=[
-            validate.Length(min=8, max=100),
-            validate.Regexp(r'^(?=.*[A-Z])(?=.*[@#$%^&+=0-9]).*$')
+            validate.Length(min=8, max=50),
+            validate.Regexp(r'^(?=.*[A-Z])(?=.*[@#$%^&+=])(?=.*[0-9]).*$')
         ],
         load_only=True
     )
@@ -39,8 +41,8 @@ class login_credientials(Schema):
     password = fields.Str(
         required=True,
         validate=[
-            validate.Length(min=8, max=100),
-            validate.Regexp(r'^(?=.*[A-Z])(?=.*[@#$%^&+=0-9]).*$')
+            validate.Length(min=8, max=50),
+            validate.Regexp(r'^(?=.*[A-Z])(?=.*[@#$%^&+=])(?=.*[0-9]).*$')
         ],
         load_only=True
     )
@@ -53,6 +55,6 @@ class loginResponds(Schema):
 
 
 class registration_compeleted(Schema):
-    access_token=fields.String(required=True)
-    message=fields.String(required=True)
-    refresh_token=fields.String(required=True)
+    access_token=fields.String()
+    message=fields.String()
+    refresh_token=fields.String()

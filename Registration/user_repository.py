@@ -26,7 +26,7 @@ manual_enter_database=database.manual_entered_collection_records
 
 
 class user_registration():
-    def uploading_data_into_database(self,data):
+    def insert_user_into_database(self,data):
         insert_record=collection_records.insert_one(data)
         data.pop("password")
         data.pop("_id")
@@ -52,11 +52,13 @@ class user_registration():
         records=collection_records.find({"email":email})
         pass1=[record.get("password") for record in records][0]
         hash_match=check_password_hash(pass1,password)
-        if hash_match==True:
+        if hash_match:
             records=collection_records.find({"email":email})
             record=list(records)[0]
-            created_access_token=create_access_token(identity=str(record["_id"]),fresh=True)
-            refresh_token=create_refresh_token(identity=str(record["_id"]))
+            record.pop("_id")
+            record.pop("password")
+            created_access_token=create_access_token(identity=record,fresh=True)
+            refresh_token=create_refresh_token(identity=record)
             return {
                 "access_token":created_access_token,
                 "refresh_token":refresh_token,

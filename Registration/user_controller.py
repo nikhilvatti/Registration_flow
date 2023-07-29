@@ -17,7 +17,7 @@ class user_registration_operations(Resource):
         hash_password=generate_password_hash(data["password"])
         data["password"]=hash_password
         data.pop("confirm_password")
-        result=user_registration.uploading_data_into_database(self,data)        
+        result=user_registration.insert_user_into_database(self,data)        
         return result
     
     def get(self):
