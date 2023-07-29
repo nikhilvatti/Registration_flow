@@ -5,43 +5,31 @@ from marshmallow import validates,ValidationError
 from Registration.user_repository import collection_records
 
 
-@validates("first_name")
-def validate_first_name(value):
+@validates(["first_name","last_name","email","company_name","industry_name"])
+def checking_spaces(value):
     if value.isspace():
-        raise ValidationError("Dont enter spaces enter a valid first_name")
+        raise ValidationError("Dont enter spaces in the place of field values")
 
 @validates("email")
 def email_checking(value):
-    mail_finding_in_records=collection_records.find({"email":value})
-    if len(list(mail_finding_in_records))!=0:
-        raise ValidationError("Mail already exists in the database records")
+    find_user=collection_records.find({"email":value})
+    if len(list(find_user))!=0:
+        raise ValidationError("user already exists in the database records")
+    if value[0].isalpha()==False:
+        raise ValidationError("mail startswith only alphabet")
 
 @validates("email")
 def email_required(value):
-    mail_finding_in_records=collection_records.find({"email":value})
-    if len(list(mail_finding_in_records))==0:
-        raise ValidationError("Mail not exists in the database records")
-
-
-@validates("last_name")
-def validate_last_name(value):
-    if value.isspace():
-        raise ValidationError("Dont enter spaces enter a valid last_name")
-
-@validates("company_name")
-def validate_company_name(value):
-    if value.isspace():
-        raise ValidationError("Dont enter spaces enter a valid company_name")
+    find_user=collection_records.find({"email":value})
+    if len(list(find_user))==0:
+        raise ValidationError("user not exists in the database records")
     
-@validates("industry_name")
-def validate_industry_name(value):
+@validates("account_type")
+def validate_account_type(value):
     if value.isspace():
-        raise ValidationError("Dont enter spaces enter a valid industry_name")
-    
-@validates("incentive_type")
-def validate_incentive_type(value):
-    if value.isspace():
-        raise ValidationError("Dont enter spaces enter a valid incentive_type")
+        raise ValidationError("Dont enter spaces enter a valid account_type")
+    if value.lower() not in ["scale_with","give_with"]:
+        raise ValidationError("please enter a valid name")
 
 @validates("confirm_password")
 def validate_match_password(value):
