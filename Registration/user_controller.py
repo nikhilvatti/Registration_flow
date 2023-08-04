@@ -56,7 +56,7 @@ class Update(Resource):
         token_user=get_jwt_identity()
         user_verifiy=UserRegistration.matching_accounts(self,id,token_user.get("email"))
         if user_verifiy=="user verified":
-            result=UserRegistration.update_credientials_by_id(self,id,data)
+            result=UserRegistration.update_data_by_id(self,id,data)
             return result
         else:
             raise BadGateway("token is not belong to the current user")        
