@@ -60,7 +60,7 @@ class registration_compeleted(Schema):
     refresh_token=fields.String()
 
 class UpdateUserData(Schema):
-    id=fields.String(validate=[validate.Length(min=24,max=24,error=("enter a valid id")),checking_user],required=True)
+    id=fields.String(validate=[validate.Length(min=24,max=24,error=("Length of id must be equal to 24")),checking_user],required=True)
     first_name=fields.String(validate=[checking_spaces,validate.Length(min=3,max=50),
                                        validate.Regexp(r'[A-Za-z0-9]',error=("the string will take only alphabetics and digits"))])
     last_name=fields.String(validate=[checking_spaces,validate.Length(min=3,max=50),
